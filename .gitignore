@@ -12,6 +12,7 @@
 *.tar.gz
 *.rar
 
+out/
 .idea/
 .gradle/
 gradle/
