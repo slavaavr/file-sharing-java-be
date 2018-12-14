@@ -1,0 +1,17 @@
+### Java template
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Package Files #
+*.jar
+*.war
+*.zip
+*.tar.gz
+*.rar
+
+.idea/
+.gradle/
+gradle/
