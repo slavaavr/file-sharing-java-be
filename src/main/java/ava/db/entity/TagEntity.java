@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Table(name = "tag")
 @EqualsAndHashCode(of = "id")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Tag {
+public class TagEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;

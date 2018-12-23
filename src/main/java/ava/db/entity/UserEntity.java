@@ -20,7 +20,7 @@ import java.util.List;
 @Table(name = "userr")
 @EqualsAndHashCode(of = "id")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
@@ -28,5 +28,5 @@ public class User {
     String nickname;
     String password;
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-    List<SharedFile> files;
+    List<FileEntity> files;
 }

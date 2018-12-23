@@ -24,7 +24,7 @@ import java.util.List;
 @Table(name = "file")
 @EqualsAndHashCode(of = "id")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SharedFile {
+public class FileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
@@ -43,5 +43,5 @@ public class SharedFile {
             joinColumns = @JoinColumn(name = "file_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    List<Tag> tags;
+    List<TagEntity> tags;
 }
