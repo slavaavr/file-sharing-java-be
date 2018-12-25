@@ -1,5 +1,6 @@
 package ava.config.security;
 
+import ava.error.NotValidTokenException;
 import ava.util.JwtTokenUtil;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -39,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            throw new RuntimeException("Token is not valid");
+            throw new NotValidTokenException();
         }
         filterChain.doFilter(request, response);
     }
