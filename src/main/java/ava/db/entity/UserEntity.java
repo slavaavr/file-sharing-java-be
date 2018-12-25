@@ -1,9 +1,10 @@
 package ava.db.entity;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.CascadeType;
@@ -17,10 +18,11 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Data
+@Builder
 @Entity
 @Table(name = "userr")
-@Builder
-@EqualsAndHashCode(of = "id")
+@NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserEntity {
     @Id

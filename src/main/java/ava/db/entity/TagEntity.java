@@ -1,9 +1,10 @@
 package ava.db.entity;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Entity;
@@ -13,10 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Data
+@Builder
 @Entity
 @Table(name = "tag")
-@Builder
-@EqualsAndHashCode(of = "id")
+@NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TagEntity {
     @Id

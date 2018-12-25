@@ -2,9 +2,10 @@ package ava.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.postgresql.util.PGInterval;
 
@@ -21,10 +22,11 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Data
+@Builder
 @Entity
 @Table(name = "file")
-@Builder
-@EqualsAndHashCode(of = "id")
+@NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileEntity {
     @Id
