@@ -1,6 +1,7 @@
 package ava.db.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
@@ -18,6 +19,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "userr")
+@Builder
 @EqualsAndHashCode(of = "id")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserEntity {

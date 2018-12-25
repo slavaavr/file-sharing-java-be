@@ -2,6 +2,7 @@ package ava.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
@@ -22,6 +23,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "file")
+@Builder
 @EqualsAndHashCode(of = "id")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileEntity {

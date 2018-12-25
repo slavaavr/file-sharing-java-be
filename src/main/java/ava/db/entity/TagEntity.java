@@ -1,6 +1,7 @@
 package ava.db.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "tag")
+@Builder
 @EqualsAndHashCode(of = "id")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TagEntity {
