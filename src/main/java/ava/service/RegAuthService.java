@@ -2,6 +2,8 @@ package ava.service;
 
 import ava.db.entity.UserEntity;
 import ava.db.repository.UserRepository;
+import ava.error.EmailAlreadyTakenException;
+import ava.error.NotValidLoginOrPasswordException;
 import ava.model.request.UserLoginReq;
 import ava.model.request.UserRegisterReq;
 import ava.model.responce.UserLoginResp;
@@ -26,7 +28,7 @@ public class RegAuthService {
     @Transactional
     public void createUser(UserRegisterReq user) {
         if (userRepository.findOneByEmail(user.getEmail()) != null) {
-            throw new RuntimeException("User with such email already exist");
+            throw new EmailAlreadyTakenException();
         } else {
             UserEntity newUser = UserEntity.builder()
                     .email(user.getEmail())
@@ -47,7 +49,7 @@ public class RegAuthService {
                     .user(entity)
                     .build();
         } else {
-            throw new RuntimeException("Not valid credentials");
+            throw new NotValidLoginOrPasswordException();
         }
     }
 }
