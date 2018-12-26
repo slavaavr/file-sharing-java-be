@@ -11,13 +11,16 @@ import org.postgresql.util.PGInterval;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -32,14 +35,22 @@ public class FileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+
     @JsonIgnore
-    Integer userId;
-    String title;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    UserEntity user;
+
     // TODO make lazy-load body (https://vladmihalcea.com/the-best-way-to-lazy-load-entity-attributes-using-jpa-and-hibernate/)
     byte[] body;
+    String title;
     String fileType;
     String fileSize;
+
+    @JsonIgnore
+    @Transient
     PGInterval fileStorageTime;
+
     Timestamp fileCreationDate;
     Integer countDownload;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
