@@ -1,9 +1,9 @@
 package ava.rest;
 
 import ava.common.Methods;
-import ava.model.request.UserLoginReq;
-import ava.model.request.UserRegisterReq;
-import ava.model.responce.UserLoginResp;
+import ava.dto.request.UserLoginReq;
+import ava.dto.request.UserRegisterReq;
+import ava.dto.responce.UserLoginResp;
 import ava.service.RegAuthService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

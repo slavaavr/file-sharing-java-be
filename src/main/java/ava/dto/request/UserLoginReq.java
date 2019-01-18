@@ -1,4 +1,4 @@
-package ava.model.request;
+package ava.dto.request;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -6,8 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserRegisterReq {
+public class UserLoginReq {
     String email;
-    String nickname;
     String password;
 }

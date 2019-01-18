@@ -1,4 +1,4 @@
-package ava.model.responce;
+package ava.dto.responce;
 
 import ava.db.entity.UserEntity;
 import lombok.AccessLevel;
