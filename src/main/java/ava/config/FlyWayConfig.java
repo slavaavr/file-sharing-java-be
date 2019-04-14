@@ -11,6 +11,6 @@ import javax.sql.DataSource;
 public class FlyWayConfig {
     @Bean(initMethod = "migrate")
     public Flyway flyway(@Autowired DataSource dataSource) {
-        return Flyway.configure().dataSource(dataSource).load();
+        return Flyway.configure().dataSource(dataSource).baselineOnMigrate(true).load();
     }
 }
