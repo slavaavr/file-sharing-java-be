@@ -28,7 +28,7 @@ public class SecurityConfig {
         protected void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests()
-                    .antMatchers("/", "/login", "/register", "/helloWorld").permitAll()
+                    .antMatchers("/*").permitAll()
                     .and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
@@ -40,9 +40,36 @@ public class SecurityConfig {
             return new BCryptPasswordEncoder();
         }
 
+        @Bean
+        public JwtAuthenticationFilter jwtAuthenticationFilter() {
+            return new JwtAuthenticationFilter();
+        }
+
+        @Bean
+        public FilterRegistrationBean<JwtAuthenticationFilter> jwtFilter() {
+            FilterRegistrationBean<JwtAuthenticationFilter> bean = new FilterRegistrationBean<>(jwtAuthenticationFilter());
+            bean.setUrlPatterns(Collections.singleton("/*"));
+            bean.setEnabled(true);
+            bean.setOrder(1);
+            return bean;
+        }
+
+        @Bean
+        public FilterRegistrationBean<CorsFilter> corsFilter() {
+            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+            CorsConfiguration config = new CorsConfiguration();
+            config.setAllowCredentials(true);
+            config.addAllowedOrigin("*");
+            config.addAllowedHeader("*");
+            config.addAllowedMethod("*");
+            source.registerCorsConfiguration("/**", config);
+            FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
+            bean.setOrder(0);
+            return bean;
+        }
     }
 
-    @Order(2)
+   /* @Order(2)
     @Configuration
     public static class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -85,6 +112,6 @@ public class SecurityConfig {
             bean.setOrder(0);
             return bean;
         }
-    }
+    }*/
 
 }
