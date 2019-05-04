@@ -1,5 +1,6 @@
 package ava.service;
 
+import ava.config.security.Principal;
 import ava.db.entity.FileEntity;
 import ava.db.entity.TagEntity;
 import ava.db.repository.FileRepository;
@@ -9,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.postgresql.util.PGInterval;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,8 +35,12 @@ public class FileService {
         List<TagEntity> createdTags = tagService.createTags(meta.getTags());
         String uri = UUID.randomUUID().toString();
         PGInterval time = new PGInterval(meta.getTime());
+        String fileName = file.getOriginalFilename();
+        if (fileName != null && fileName.length() > 60) {
+            fileName = fileName.substring(0, 60);
+        }
         FileEntity fileEntity = FileEntity.builder()
-                .title(file.getOriginalFilename())
+                .title(fileName)
                 .type(file.getContentType())
                 .body(file.getBytes())
                 .size(file.getSize())
@@ -44,6 +50,10 @@ public class FileService {
                 .countDownload(0)
                 .creationDate(Timestamp.valueOf(LocalDateTime.now()))
                 .build();
+        Principal principal = (Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal.isAuth()) {
+            fileEntity.setUser(principal.getUser());
+        }
         fileRepository.save(fileEntity);
         return "http://localhost:8080/files/" + uri;
     }
