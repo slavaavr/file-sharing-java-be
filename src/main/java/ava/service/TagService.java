@@ -28,7 +28,9 @@ public class TagService {
         if (tags.size() == 0) {
             return new ArrayList<>();
         }
-        tagRepository.saveAllIfNotExist(tags);
+        for (String tag : tags) {
+            tagRepository.saveIfNotExist(tag);
+        }
         return tagRepository.findAllByTitleIsIn(tags);
     }
 }
