@@ -15,11 +15,11 @@ public class UserService {
 
     UserRepository userRepository;
 
-    UserEntity getUserByEmail(String email) {
+    public UserEntity getUserByEmail(String email) {
         return userRepository.findOneByEmail(email);
     }
 
-    UserEntity createUser(UserEntity user) {
+    public UserEntity createUser(UserEntity user) {
         return userRepository.save(user);
     }
 }
