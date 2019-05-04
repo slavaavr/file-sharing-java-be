@@ -1,26 +1,10 @@
 package ava.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.postgresql.util.PGInterval;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -41,17 +25,18 @@ public class FileEntity {
     @JoinColumn(name = "user_id")
     UserEntity user;
 
+    String uri;
+
     // TODO make lazy-load body (https://vladmihalcea.com/the-best-way-to-lazy-load-entity-attributes-using-jpa-and-hibernate/)
     byte[] body;
     String title;
-    String fileType;
-    String fileSize;
+    String type;
+    Long size;
 
     @JsonIgnore
-    @Transient
-    PGInterval fileStorageTime;
+    String storageTime;
 
-    Timestamp fileCreationDate;
+    Timestamp creationDate;
     Integer countDownload;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "file_tag",
