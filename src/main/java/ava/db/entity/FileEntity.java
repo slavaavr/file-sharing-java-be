@@ -24,10 +24,7 @@ public class FileEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     UserEntity user;
-
     String uri;
-
-    // TODO make lazy-load body (https://vladmihalcea.com/the-best-way-to-lazy-load-entity-attributes-using-jpa-and-hibernate/)
     byte[] body;
     String title;
     String type;
