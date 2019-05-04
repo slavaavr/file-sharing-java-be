@@ -13,8 +13,8 @@ public interface TagRepository extends CrudRepository<TagEntity, Integer> {
     List<String> getPopularTags();
 
     @Modifying
-    @Query(value = "insert into tag(title) select unnest(array[:titles]) on conflict do nothing", nativeQuery = true)
-    void saveAllIfNotExist(@Param("titles") List<String> titles);
+    @Query(value = "insert into tag(title) values(:title) on conflict do nothing", nativeQuery = true)
+    void saveIfNotExist(@Param("title") String title);
 
     List<TagEntity> findAllByTitleIsIn(List<String> titles);
 
