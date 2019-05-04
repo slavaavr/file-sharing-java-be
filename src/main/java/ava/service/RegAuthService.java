@@ -1,12 +1,11 @@
 package ava.service;
 
 import ava.db.entity.UserEntity;
-import ava.db.repository.UserRepository;
-import ava.error.EmailAlreadyTakenException;
-import ava.error.NotValidLoginOrPasswordException;
 import ava.dto.request.UserLoginReq;
 import ava.dto.request.UserRegisterReq;
 import ava.dto.responce.UserLoginResp;
+import ava.error.EmailAlreadyTakenException;
+import ava.error.NotValidLoginOrPasswordException;
 import ava.util.JwtTokenUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,13 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class RegAuthService {
 
-    UserRepository userRepository;
+    UserService userService;
     PasswordEncoder passwordEncoder;
     JwtTokenUtil jwtTokenUtil;
 
     @Transactional
     public void createUser(UserRegisterReq user) {
-        if (userRepository.findOneByEmail(user.getEmail()) != null) {
+        if (userService.getUserByEmail(user.getEmail()) != null) {
             throw new EmailAlreadyTakenException();
         } else {
             UserEntity newUser = UserEntity.builder()
@@ -35,13 +34,13 @@ public class RegAuthService {
                     .nickname(user.getNickname())
                     .password(passwordEncoder.encode(user.getPassword()))
                     .build();
-            userRepository.save(newUser);
+            userService.createUser(newUser);
         }
 
     }
 
     public UserLoginResp login(UserLoginReq user) {
-        UserEntity entity = userRepository.findOneByEmail(user.getEmail());
+        UserEntity entity = userService.getUserByEmail(user.getEmail());
         if (entity != null && passwordEncoder.matches(user.getPassword(), entity.getPassword())) {
             String token = jwtTokenUtil.generateTokenByEmail(user.getEmail());
             return UserLoginResp.builder()
