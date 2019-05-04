@@ -24,6 +24,6 @@ public class TagEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    String name;
+    String title;
     Integer useCounter;
 }
