@@ -10,6 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.postgresql.util.PGInterval;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,5 +63,9 @@ public class FileService {
 
     public FileEntity getFile(String uri) {
         return fileRepository.findByUri(uri);
+    }
+
+    public Page<FileEntity> gePage(int page, int size) {
+        return fileRepository.findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "creationDate")));
     }
 }
