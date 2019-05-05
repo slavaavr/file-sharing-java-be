@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,8 +30,14 @@ public class FileController {
     }
 
     @GetMapping(value = "/files/{uri}")
-    public FileEntity getFile(@PathVariable String uri) {
-        return fileService.getFile(uri);
+    public HttpEntity<byte[]> getFile(@PathVariable String uri) {
+        FileEntity file = fileService.getFile(uri);
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.parseMediaType(file.getType()));
+        header.set(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=" + file.getTitle().replace(" ", "_"));
+        header.setContentLength(file.getSize());
+        return new HttpEntity<>(file.getBody(), header);
     }
 
     @GetMapping(value = "/files")
