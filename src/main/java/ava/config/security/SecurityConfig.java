@@ -62,6 +62,8 @@ public class SecurityConfig {
             config.addAllowedOrigin("*");
             config.addAllowedHeader("*");
             config.addAllowedMethod("*");
+            config.addExposedHeader("Content-Disposition");
+            config.addExposedHeader("Content-Length");
             source.registerCorsConfiguration("/**", config);
             FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
             bean.setOrder(0);
