@@ -20,11 +20,11 @@ public class FileEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     UserEntity user;
     String uri;
+    @JsonIgnore
     byte[] body;
     String title;
     String type;
