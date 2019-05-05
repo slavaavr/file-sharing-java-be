@@ -61,8 +61,11 @@ public class FileService {
         return "http://localhost:8080/files/" + uri;
     }
 
+    @Transactional
     public FileEntity getFile(String uri) {
-        return fileRepository.findByUri(uri);
+        FileEntity entity = fileRepository.findByUri(uri);
+        fileRepository.incrDownloadCounter(entity.getId());
+        return entity;
     }
 
     public Page<FileEntity> gePage(int page, int size) {
