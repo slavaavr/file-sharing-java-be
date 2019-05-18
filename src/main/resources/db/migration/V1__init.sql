@@ -39,8 +39,8 @@ CREATE PROCEDURE erase_old_files()
 AS
 $$
 BEGIN
-  DELETE
-  FROM file
-  WHERE creation_date > NOW() - storage_time;
+    DELETE
+    FROM file
+    WHERE creation_date < NOW() - storage_time::INTERVAL;
 END;
 $$;
