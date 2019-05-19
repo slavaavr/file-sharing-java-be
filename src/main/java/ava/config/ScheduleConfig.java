@@ -14,7 +14,7 @@ public class ScheduleConfig {
 
     FileRepository fileRepository;
 
-    @Scheduled(cron = "* 0 * * * *")
+    @Scheduled(cron = "* 59 * * * *")
     @Transactional
     public void cronTask() {
         fileRepository.eraseOldFiles();
