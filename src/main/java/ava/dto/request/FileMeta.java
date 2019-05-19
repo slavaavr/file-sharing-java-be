@@ -10,5 +10,6 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileMeta {
     List<String> tags;
+    String prettySize;
     String time;
 }
