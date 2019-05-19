@@ -5,6 +5,7 @@ import ava.db.entity.FileEntity;
 import ava.db.entity.TagEntity;
 import ava.db.repository.FileRepository;
 import ava.dto.request.FileMeta;
+import ava.dto.responce.SimpleFile;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -12,6 +13,7 @@ import org.postgresql.util.PGInterval;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -47,11 +48,12 @@ public class FileService {
                 .type(file.getContentType())
                 .body(file.getBytes())
                 .size(file.getSize())
+                .prettySize(meta.getPrettySize())
                 .tags(createdTags)
                 .uri(uri)
                 .storageTime(time.toString())
                 .countDownload(0)
-                .creationDate(Timestamp.valueOf(LocalDateTime.now()))
+                .creationDate(LocalDateTime.now())
                 .build();
         Principal principal = (Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal.isAuth()) {
@@ -68,7 +70,14 @@ public class FileService {
         return entity;
     }
 
-    public Page<FileEntity> gePage(int page, int size) {
-        return fileRepository.findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "creationDate")));
+    public Page<SimpleFile> gePage(String search, Pageable pageable) {
+        if (search == null) {
+            return fileRepository.findAll(pageable);
+        }
+        // Funny thing. Spring can't recognizes 'creationData' field, so it want 'creation_date' instead,
+        // but code above recognizes field if it is in the camel case style only. wtf?
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                Sort.by(Sort.Direction.DESC, "creation_date"));
+        return fileRepository.searchFiles(search, pageRequest);
     }
 }

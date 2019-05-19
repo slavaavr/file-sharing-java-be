@@ -2,12 +2,16 @@ package ava.rest;
 
 import ava.db.entity.FileEntity;
 import ava.dto.request.FileMeta;
+import ava.dto.responce.SimpleFile;
 import ava.service.FileService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -41,7 +45,8 @@ public class FileController {
     }
 
     @GetMapping(value = "/files")
-    public Page<FileEntity> getPage(@RequestParam int page, @RequestParam int size) {
-        return fileService.gePage(page, size);
+    public Page<SimpleFile> getPage(@RequestParam(required = false) String search,
+                                    @PageableDefault(sort = {"creationDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        return fileService.gePage(search, pageable);
     }
 }
